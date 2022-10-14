@@ -7,23 +7,21 @@ function App() {
   return (
     <div className="App">
       <StyledD>
-        <ToolTips message="this is message1" position="bottom" trigger="hover">
+        <ToolTips message="this is message1" position="bottom">
           <button>바텀오버</button>
         </ToolTips>
-        <ToolTips message="this is message1" position="top" trigger="hover">
+        <ToolTips message="this is message1" position="top" trigger="click">
           <button>탑</button>
         </ToolTips>
         <ToolTips
           message="이것은 &#10;툴팁긴글자긴글자긴글자긴글자긴글자긴글자긴글자긴글자긴글자긴글자긴글자긴글자"
           position="left"
-          trigger="hover"
         >
           <button>레프트</button>
         </ToolTips>
         <ToolTips
           message="zzzzzzzzzzzzzzzzzzzzzzzzz&#13;sszzzzzzzzz"
           position="right"
-          trigger="hover"
         >
           <button>라이트</button>
         </ToolTips>

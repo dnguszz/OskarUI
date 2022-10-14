@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import React, { useState, useEffect, useRef } from "react";
+import styled, { css, keyframes } from "styled-components";
 import FontStyles from "../common/style";
 
 interface IToolTips {
@@ -25,17 +25,19 @@ function ToolTips({
   message,
   position = "top",
   trigger = "hover",
-  theme = "secondary",
+  theme = "primary",
   size = "md",
 }: IToolTips) {
   const [child, setChild] = useState<React.ReactElement>();
   const [visible, setVisible] = useState<boolean>(false);
 
+  const targetRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+
   useEffect(() => {
     let clonedChild;
     if (trigger === "click") {
       clonedChild = React.cloneElement(children, {
-        onclick: () => setVisible(true),
+        ref: targetRef,
       });
       //click이벤트 등록
     } else {
@@ -45,7 +47,24 @@ function ToolTips({
       });
     }
     setChild(clonedChild);
-  }, []); //트리거 종류에따라 비지블 변하는 함수 내용 변경
+  }, []); //트리거 종류에따라 visible 변하는 함수 내용 변경
+
+  useEffect(() => {
+    if (trigger !== "click") return;
+    const handleClickOutside = (e: MouseEvent) => {
+      //이 조건에서 클릭이 내부인지 확인
+      if (targetRef.current.contains(e.target as Node)) {
+        //툴팁을 띄울 타겟을 클릭했을때
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [targetRef, trigger]);
 
   return (
     <>
@@ -70,28 +89,28 @@ const getPosition = (position: string) => {
       return css`
         top: 0;
         left: 50%;
-        transform: translate(-50%, -100%);
+        transform: translate(-50%, calc(-100% - 12px));
       `;
 
     case "bottom":
       return css`
         top: 100%;
         left: 50%;
-        transform: translate(-50%, 0);
+        transform: translate(-50%, 12px);
       `;
 
     case "left":
       return css`
         top: 50%;
         left: 0;
-        transform: translate(-100%, -50%);
+        transform: translate(calc(-100% - 12px), -50%);
       `;
 
     case "right":
       return css`
         top: 50%;
         left: 100%;
-        transform: translate(0%, -50%);
+        transform: translate(12px, -50%);
       `;
 
     default:
@@ -104,7 +123,7 @@ const getTheme = (theme: string) => {
     case "primary":
       return css`
         background-color: #f2f2f2;
-        color #424242;
+        color: #424242;
       `;
 
     case "secondary":
@@ -123,7 +142,6 @@ const getSize = (size: string) => {
       return css`
         font-size: 12px;
       `;
-
     case "md":
       return css`
         font-size: 16px;
@@ -136,6 +154,15 @@ const getSize = (size: string) => {
       return null;
   }
 };
+
+const fadeIn = keyframes`
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+`;
 
 const TooltipsWrapper = styled.div`
   font-family: "Noto sansB";
@@ -154,6 +181,8 @@ const MessageWrapper = styled.div<PropsType>`
   justify-content: center;
   white-space: nowrap;
   font-family: "Noto sans";
+  cursor: default;
+  animation: ${fadeIn} 0.15s linear;
   ${(props) => getPosition(props.position)}
   ${(props) => getTheme(props.theme)}
   ${(props) => getSize(props.size)}
