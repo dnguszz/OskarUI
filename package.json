@@ -1,7 +1,7 @@
 {
   "name": "wooh-ui",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "tsc",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
@@ -72,5 +72,22 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "prop-types": "^15.8.1",
     "webpack": "^5.74.0"
-  }
+  },
+  "description": "### install",
+  "main": "dist",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnguszz/WoohUI.git"
+  },
+  "keywords": [
+    "UI",
+    "ToolTips",
+    "React"
+  ],
+  "author": "Oskar Kim <pinkfloyd951@naver.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dnguszz/WoohUI/issues"
+  },
+  "homepage": "https://github.com/dnguszz/WoohUI#readme"
 }
