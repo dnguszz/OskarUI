@@ -25,7 +25,7 @@ type Size = "sm" | "md" | "lg";
 function ToolTips({
   children,
   message,
-  position = "top",
+  position = "bottom",
   trigger = "hover",
   theme = "primary",
   size = "md",
@@ -167,11 +167,9 @@ const fadeIn = keyframes`
 `;
 
 const TooltipsWrapper = styled.div`
-  font-family: "Noto sansB";
   width: fit-content;
   height: fit-content;
   position: relative;
-  border: 1px solid red;
 `;
 
 const MessageWrapper = styled.div<PropsType>`
@@ -185,6 +183,7 @@ const MessageWrapper = styled.div<PropsType>`
   font-family: "Noto sans";
   cursor: default;
   animation: ${fadeIn} 0.15s linear;
+  z-index: 100;
   ${(props) => getPosition(props.position)}
   ${(props) => getTheme(props.theme)}
   ${(props) => getSize(props.size)}
