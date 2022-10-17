@@ -22,7 +22,7 @@ type Trigger = "hover" | "click";
 type Theme = "primary" | "secondary";
 type Size = "sm" | "md" | "lg";
 
-function ToolTips({
+export function ToolTips({
   children,
   message,
   position = "bottom",

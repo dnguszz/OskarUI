@@ -74,7 +74,8 @@
     "webpack": "^5.74.0"
   },
   "description": "### install",
-  "main": "dist",
+  "main": "dist/index.js",
+  "type": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dnguszz/WoohUI.git"

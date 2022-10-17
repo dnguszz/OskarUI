@@ -16,7 +16,8 @@
     "jsx": "react-jsx",
     "rootDir": "src",
     "outDir": "./dist",
-    "declaration": true
+    "declaration": true,
+    "baseUrl": "./"
   },
-  "include": ["src/**/*.tsx", "src/font.d.ts"]
+  "include": ["src/**/*", "src/font.d.ts"]
 }

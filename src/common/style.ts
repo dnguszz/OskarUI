@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import NotoSansMedium from "./fonts/NotoSansKR-Medium.otf";
+import NotoSansMedium from "src/common/fonts/NotoSansKR-Medium.otf";
 
 const FontStyles = createGlobalStyle`
 
