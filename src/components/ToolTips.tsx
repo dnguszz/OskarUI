@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 import FontStyles from "../common/style";
 
-interface IToolTips {
+export interface IToolTips {
   children: React.ReactElement;
   message: string;
   position?: Position; //기본값 top
   trigger?: Trigger; //기본값 hover
-  theme?: string; //기본값 primary
-  size?: string; //기본값 md
+  theme?: Theme; //기본값 primary
+  size?: Size; //기본값 md
 }
 
 interface PropsType {
@@ -19,6 +19,8 @@ interface PropsType {
 
 type Position = "top" | "bottom" | "left" | "right";
 type Trigger = "hover" | "click";
+type Theme = "primary" | "secondary";
+type Size = "sm" | "md" | "lg";
 
 function ToolTips({
   children,
