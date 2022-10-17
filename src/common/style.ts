@@ -5,7 +5,7 @@ const FontStyles = createGlobalStyle`
 
 @font-face {
   font-family: 'Noto sans';
-  src: url(${NotoSansMedium});
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 }
 `;
 
