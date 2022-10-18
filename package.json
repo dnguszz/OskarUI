@@ -1,6 +1,6 @@
 {
-  "name": "wooh-ui",
-  "version": "0.1.6",
+  "name": "oskar-ui",
+  "version": "0.1.0",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -81,7 +81,7 @@
   "type": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dnguszz/WoohUI.git"
+    "url": "git+https://github.com/dnguszz/OskarUI.git"
   },
   "keywords": [
     "UI",
@@ -91,7 +91,8 @@
   "author": "Oskar Kim <pinkfloyd951@naver.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dnguszz/WoohUI/issues"
+    "url": "https://github.com/dnguszz/OskarUI/issues"
   },
-  "homepage": "https://github.com/dnguszz/WoohUI#readme"
+  "homepage": "https://github.com/dnguszz/OskarUI#readme",
+  "types": "./dist/index.d.ts"
 }

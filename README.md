@@ -1,4 +1,4 @@
-# WOOH UI
+# OskarUI UI
 
 ### install
 
@@ -13,11 +13,25 @@ npm install wooh-ui
 
 <br>
 <br>
+마우스 커서나 클릭 이벤트로 요소에 부가 설명이 가능한 툴팁 기능입니다.
+<br>
+<br>
 
-### import
+# Functions
+
+1. 특정 DOM 에 특정 이벤트를 트리거링했을 때 메시지를 띄웁니다.
+
+2. 메시지 박스의 위치를 선택할 수 있습니다.
+
+3. 메시지 박스 오픈 트리거 이벤트를 선택할 수 있습니다.
+
+<br>
+<br>
+
+### Get Started
 
 ```
-import {ToolTips} from "wooh-ui";
+import { ToolTips } from "wooh-ui";
 ```
 
 <br>
