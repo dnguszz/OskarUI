@@ -16,7 +16,12 @@ var __assign = (this && this.__assign) || function () {
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
-import FontStyles from "../common/style";
+import WebFont from "webfontloader";
+WebFont.load({
+    google: {
+        families: ["Noto Sans KR", "sans-serif"],
+    },
+});
 export function ToolTips(_a) {
     var children = _a.children, message = _a.message, _b = _a.position, position = _b === void 0 ? "bottom" : _b, _c = _a.trigger, trigger = _c === void 0 ? "hover" : _c, _d = _a.theme, theme = _d === void 0 ? "primary" : _d, _e = _a.size, size = _e === void 0 ? "md" : _e;
     var _f = useState(), child = _f[0], setChild = _f[1];
@@ -56,7 +61,7 @@ export function ToolTips(_a) {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [targetRef, trigger]);
-    return (_jsxs(_Fragment, { children: [_jsx(FontStyles, {}), _jsxs(TooltipsWrapper, { children: [child, visible && (_jsx(MessageWrapper, __assign({ position: position, theme: theme, size: size }, { children: message })))] })] }));
+    return (_jsx(_Fragment, { children: _jsxs(TooltipsWrapper, { children: [child, visible && (_jsx(MessageWrapper, __assign({ position: position, theme: theme, size: size }, { children: message })))] }) }));
 }
 export default ToolTips;
 var getPosition = function (position) {
@@ -97,5 +102,5 @@ var getSize = function (size) {
 };
 var fadeIn = keyframes(templateObject_10 || (templateObject_10 = __makeTemplateObject(["\n  from{\n    opacity: 0;\n  }\n  to{\n    opacity: 1;\n  }\n"], ["\n  from{\n    opacity: 0;\n  }\n  to{\n    opacity: 1;\n  }\n"])));
 var TooltipsWrapper = styled.div(templateObject_11 || (templateObject_11 = __makeTemplateObject(["\n  width: fit-content;\n  height: fit-content;\n  position: relative;\n"], ["\n  width: fit-content;\n  height: fit-content;\n  position: relative;\n"])));
-var MessageWrapper = styled.div(templateObject_12 || (templateObject_12 = __makeTemplateObject(["\n  padding: 16px;\n  position: absolute;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  font-family: \"Noto sans\";\n  cursor: default;\n  animation: ", " 0.15s linear;\n  z-index: 100;\n  ", "\n  ", "\n  ", "\n"], ["\n  padding: 16px;\n  position: absolute;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  font-family: \"Noto sans\";\n  cursor: default;\n  animation: ", " 0.15s linear;\n  z-index: 100;\n  ", "\n  ", "\n  ", "\n"])), fadeIn, function (props) { return getPosition(props.position); }, function (props) { return getTheme(props.theme); }, function (props) { return getSize(props.size); });
+var MessageWrapper = styled.div(templateObject_12 || (templateObject_12 = __makeTemplateObject(["\n  padding: 16px;\n  position: absolute;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  font-family: \"Noto Sans KR\";\n  cursor: default;\n  animation: ", " 0.15s linear;\n  z-index: 100;\n  ", "\n  ", "\n  ", "\n"], ["\n  padding: 16px;\n  position: absolute;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  font-family: \"Noto Sans KR\";\n  cursor: default;\n  animation: ", " 0.15s linear;\n  z-index: 100;\n  ", "\n  ", "\n  ", "\n"])), fadeIn, function (props) { return getPosition(props.position); }, function (props) { return getTheme(props.theme); }, function (props) { return getSize(props.size); });
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
