@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
-import FontStyles from "../common/style";
+import WebFont from "webfontloader";
 
 export interface IToolTips {
   children: React.ReactElement;
@@ -21,6 +21,12 @@ type Position = "top" | "bottom" | "left" | "right";
 type Trigger = "hover" | "click";
 type Theme = "primary" | "secondary";
 type Size = "sm" | "md" | "lg";
+
+WebFont.load({
+  google: {
+    families: ["Noto Sans KR", "sans-serif"],
+  },
+});
 
 export function ToolTips({
   children,
@@ -70,7 +76,6 @@ export function ToolTips({
 
   return (
     <>
-      <FontStyles />
       <TooltipsWrapper>
         {child}
         {visible && (
@@ -180,7 +185,7 @@ const MessageWrapper = styled.div<PropsType>`
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  font-family: "Noto sans";
+  font-family: "Noto Sans KR";
   cursor: default;
   animation: ${fadeIn} 0.15s linear;
   z-index: 100;
