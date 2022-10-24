@@ -15,6 +15,7 @@ interface PropsType {
   position: string;
   theme: string;
   size: string;
+  ref: any;
 }
 
 type Position = "top" | "bottom" | "left" | "right";
@@ -40,6 +41,7 @@ export function ToolTips({
   const [visible, setVisible] = useState<boolean>(false);
 
   const targetRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const messageRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
     let clonedChild;
@@ -52,6 +54,7 @@ export function ToolTips({
       clonedChild = React.cloneElement(children, {
         onMouseOver: () => setVisible(true),
         onMouseLeave: () => setVisible(false),
+        ref: targetRef,
       });
     }
     setChild(clonedChild);
@@ -74,56 +77,73 @@ export function ToolTips({
     };
   }, [targetRef, trigger]);
 
+  useEffect(() => {
+    if (!visible) return;
+
+    let correctionX: number = 0;
+    let correctionY: number = 0;
+    const padding: number = 12;
+
+    let targetLeft = targetRef.current.offsetLeft;
+    let targetTop = targetRef.current.offsetTop;
+
+    if (targetRef.current.offsetWidth === undefined) {
+      targetLeft = targetRef.current.getBoundingClientRect().left;
+      targetTop = targetRef.current.getBoundingClientRect().top;
+    }
+
+    switch (position) {
+      case "top":
+        correctionX =
+          targetRef.current.clientWidth / 2 -
+          messageRef.current.clientWidth / 2;
+        correctionY = -messageRef.current.clientHeight - padding;
+        break;
+      case "bottom":
+        correctionX =
+          targetRef.current.clientWidth / 2 -
+          messageRef.current.clientWidth / 2;
+        correctionY = targetRef.current.clientHeight + padding;
+        break;
+      case "left":
+        correctionX = -messageRef.current.clientWidth - padding;
+        correctionY =
+          targetRef.current.clientHeight / 2 -
+          messageRef.current.clientHeight / 2;
+        break;
+      case "right":
+        correctionX = targetRef.current.clientWidth + padding;
+        correctionY =
+          targetRef.current.clientHeight / 2 -
+          messageRef.current.clientHeight / 2;
+        break;
+      default:
+        break;
+    }
+
+    messageRef.current.style.transform = `translate(${
+      targetLeft + correctionX
+    }px, ${targetTop + correctionY}px)`;
+  }, [visible]);
+
   return (
     <>
-      <TooltipsWrapper>
-        {child}
-        {visible && (
-          <MessageWrapper position={position} theme={theme} size={size}>
-            {message}
-          </MessageWrapper>
-        )}
-      </TooltipsWrapper>
+      {child}
+      {visible && (
+        <MessageWrapper
+          position={position}
+          theme={theme}
+          size={size}
+          ref={messageRef}
+        >
+          {message}
+        </MessageWrapper>
+      )}
     </>
   );
 }
 
 export default ToolTips;
-
-const getPosition = (position: string) => {
-  switch (position) {
-    case "top":
-      return css`
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, calc(-100% - 12px));
-      `;
-
-    case "bottom":
-      return css`
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, 12px);
-      `;
-
-    case "left":
-      return css`
-        top: 50%;
-        left: 0;
-        transform: translate(calc(-100% - 12px), -50%);
-      `;
-
-    case "right":
-      return css`
-        top: 50%;
-        left: 100%;
-        transform: translate(12px, -50%);
-      `;
-
-    default:
-      return null;
-  }
-};
 
 const getTheme = (theme: string) => {
   switch (theme) {
@@ -171,15 +191,11 @@ const fadeIn = keyframes`
   }
 `;
 
-const TooltipsWrapper = styled.div`
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-`;
-
 const MessageWrapper = styled.div<PropsType>`
   padding: 16px;
   position: absolute;
+  top: 0px;
+  left: 0px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -189,7 +205,6 @@ const MessageWrapper = styled.div<PropsType>`
   cursor: default;
   animation: ${fadeIn} 0.15s linear;
   z-index: 100;
-  ${(props) => getPosition(props.position)}
   ${(props) => getTheme(props.theme)}
   ${(props) => getSize(props.size)}
 `;

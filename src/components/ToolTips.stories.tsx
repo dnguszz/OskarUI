@@ -15,10 +15,10 @@ export default {
 
 const Template: ComponentStory<typeof ToolTips> = (args: IToolTips) => (
   <StoryWrapper>
-    <div>
+    <Storycontainer>
       <h1>hover</h1>
       <ToolTips {...args}>
-        <div>div</div>
+        <StyledDiv>div</StyledDiv>
       </ToolTips>
       <ToolTips {...args}>
         <img
@@ -32,12 +32,12 @@ const Template: ComponentStory<typeof ToolTips> = (args: IToolTips) => (
       <ToolTips {...args}>
         <Button variant="contained">ToolTip Button</Button>
       </ToolTips>
-    </div>
+    </Storycontainer>
 
-    <div>
+    <Storycontainer>
       <h1>click</h1>
       <ToolTips {...args} trigger="click">
-        <div>div</div>
+        <StyledDiv>div</StyledDiv>
       </ToolTips>
       <ToolTips {...args} trigger="click">
         <img
@@ -51,7 +51,7 @@ const Template: ComponentStory<typeof ToolTips> = (args: IToolTips) => (
       <ToolTips {...args} trigger="click">
         <Button variant="contained">ToolTip Button</Button>
       </ToolTips>
-    </div>
+    </Storycontainer>
   </StoryWrapper>
 );
 
@@ -97,8 +97,46 @@ export const Position: ComponentStory<typeof ToolTips> = (args: IToolTips) => {
   );
 };
 
+export const AbsolutePosition: ComponentStory<typeof ToolTips> = (
+  args: IToolTips
+) => {
+  return (
+    <RelativeWrapper>
+      <ToolTips {...args} position="bottom">
+        <AbsoluteWrapper>it should be on the right</AbsoluteWrapper>
+      </ToolTips>
+    </RelativeWrapper>
+  );
+};
+
 const StoryWrapper = styled.div`
   display: flex;
   gap: 12px;
   padding: 12px;
+`;
+
+const Storycontainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledDiv = styled.div`
+  width: fit-content;
+  background-color: grey;
+`;
+
+const RelativeWrapper = styled.div`
+  position: relative;
+  width: 400px;
+  height: 100px;
+  background-color: grey;
+`;
+
+const AbsoluteWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: blue;
+  width: 100px;
+  height: 100px;
 `;
