@@ -101,13 +101,24 @@ export const AbsolutePosition: ComponentStory<typeof ToolTips> = (
   args: IToolTips
 ) => {
   return (
-    <RelativeWrapper>
-      <ToolTips {...args} position="bottom">
-        <AbsoluteWrapper>it should be on the right</AbsoluteWrapper>
-      </ToolTips>
-    </RelativeWrapper>
+    <>
+      <RelativeWrapper>
+        <ToolTips {...args} position="bottom" trigger="click">
+          <AbsoluteWrapper>it should be on the right</AbsoluteWrapper>
+        </ToolTips>
+        {/* <ToolTips {...args} position="bottom">
+          <StyledIcon sx={{ fontSize: 40 }} />
+        </ToolTips> */}
+      </RelativeWrapper>
+    </>
   );
 };
+
+const StyledIcon = styled(SearchIcon)`
+  position: absolute;
+  top: 30;
+  left: 30;
+`;
 
 const StoryWrapper = styled.div`
   display: flex;
@@ -123,6 +134,7 @@ const Storycontainer = styled.div`
 const StyledDiv = styled.div`
   width: fit-content;
   background-color: grey;
+  margin: 50px;
 `;
 
 const RelativeWrapper = styled.div`
