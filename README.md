@@ -9,7 +9,7 @@ npm install wooh-ui
 <br>
 <br>
 
-## ToolTips
+## Tooltip
 
 <br>
 <br>
@@ -31,7 +31,7 @@ npm install wooh-ui
 ### Get Started
 
 ```
-import { ToolTips } from "wooh-ui";
+import { Tooltip } from "wooh-ui";
 ```
 
 <br>
