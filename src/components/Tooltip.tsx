@@ -4,12 +4,12 @@ import styled, { css, keyframes } from "styled-components";
 import WebFont from "webfontloader";
 
 export interface ITooltip {
-  children?: React.ReactElement;
+  children: React.ReactElement;
   message: string;
-  position?: Position; //기본값 top
-  trigger?: Trigger; //기본값 hover
-  theme?: Theme; //기본값 primary
-  size?: Size; //기본값 md
+  position?: Position;
+  trigger?: Trigger;
+  theme?: Theme;
+  size?: Size;
 }
 
 interface PropsType {
@@ -19,10 +19,10 @@ interface PropsType {
   targetRect: DOMRect;
 }
 
-type Position = "top" | "bottom" | "left" | "right";
-type Trigger = "hover" | "click";
-type Theme = "primary" | "secondary";
-type Size = "sm" | "md" | "lg";
+export type Position = "top" | "bottom" | "left" | "right";
+export type Trigger = "hover" | "click";
+export type Theme = "primary" | "secondary";
+export type Size = "sm" | "md" | "lg";
 
 WebFont.load({
   google: {
@@ -49,7 +49,6 @@ export function Tooltip({
       clonedChild = React.cloneElement(children!, {
         ref: targetRef,
       });
-      //click이벤트 등록
     } else {
       clonedChild = React.cloneElement(children!, {
         onMouseOver: () => setVisible(true),
@@ -58,18 +57,12 @@ export function Tooltip({
       });
     }
     setChild(clonedChild);
-  }, []); //트리거 종류에따라 visible 변하는 함수 내용 변경
+  }, []);
 
   useEffect(() => {
     if (trigger !== "click") return;
     const handleClickOutside = (e: MouseEvent) => {
-      //이 조건에서 클릭이 내부인지 확인
-      if (targetRef.current.contains(e.target as Node)) {
-        //툴팁을 띄울 타겟을 클릭했을때
-        setVisible(true);
-      } else {
-        setVisible(false);
-      }
+      setVisible(targetRef.current.contains(e.target as Node));
     };
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -108,7 +101,7 @@ const getPosition = (position: string, targetRect: DOMRect) => {
         left: ${targetRect.left}px;
         transform: translate(
           calc(${targetRect.width / 2}px - 50%),
-          calc(-100% - ${padding})
+          calc(-100% - ${padding}px)
         );
       `;
 
@@ -127,7 +120,7 @@ const getPosition = (position: string, targetRect: DOMRect) => {
         top: ${targetRect.top}px;
         left: ${targetRect.left}px;
         transform: translate(
-          calc(-100% - ${padding}),
+          calc(-100% - ${padding}px),
           calc(${targetRect.height / 2}px - 50%)
         );
       `;
@@ -143,7 +136,7 @@ const getPosition = (position: string, targetRect: DOMRect) => {
       `;
 
     default:
-      return null;
+      return;
   }
 };
 
@@ -161,7 +154,7 @@ const getTheme = (theme: string) => {
         color: #f2f2f2;
       `;
     default:
-      return null;
+      return;
   }
 };
 
@@ -180,7 +173,7 @@ const getSize = (size: string) => {
         font-size: 22px;
       `;
     default:
-      return null;
+      return;
   }
 };
 
