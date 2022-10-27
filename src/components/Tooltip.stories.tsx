@@ -1,56 +1,56 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import ToolTips, { IToolTips } from "./ToolTips";
+import Tooltip, { ITooltip } from "./Tooltip";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default {
-  title: "Example/ToolTips",
-  component: ToolTips,
+  title: "Example/Tooltip",
+  component: Tooltip,
   args: {
     message: "Lorem Ipsum",
   },
-} as ComponentMeta<typeof ToolTips>;
+} as ComponentMeta<typeof Tooltip>;
 
-const Template: ComponentStory<typeof ToolTips> = (args: IToolTips) => (
+const Template: ComponentStory<typeof Tooltip> = (args: ITooltip) => (
   <StoryWrapper>
     <Storycontainer>
       <h1>hover</h1>
-      <ToolTips {...args}>
+      <Tooltip {...args}>
         <StyledDiv>div</StyledDiv>
-      </ToolTips>
-      <ToolTips {...args}>
+      </Tooltip>
+      <Tooltip {...args}>
         <img
           src="https://www.viewhotels.jp/asakusa-annex/wp-content/uploads/sites/6/2020/03/test-img-300x196.jpg"
           alt="test img"
         />
-      </ToolTips>
-      <ToolTips {...args}>
+      </Tooltip>
+      <Tooltip {...args}>
         <SearchIcon sx={{ fontSize: 40 }} />
-      </ToolTips>
-      <ToolTips {...args}>
+      </Tooltip>
+      <Tooltip {...args}>
         <Button variant="contained">ToolTip Button</Button>
-      </ToolTips>
+      </Tooltip>
     </Storycontainer>
 
     <Storycontainer>
       <h1>click</h1>
-      <ToolTips {...args} trigger="click">
+      <Tooltip {...args} trigger="click">
         <StyledDiv>div</StyledDiv>
-      </ToolTips>
-      <ToolTips {...args} trigger="click">
+      </Tooltip>
+      <Tooltip {...args} trigger="click">
         <img
           src="https://www.viewhotels.jp/asakusa-annex/wp-content/uploads/sites/6/2020/03/test-img-300x196.jpg"
           alt="test img"
         />
-      </ToolTips>
-      <ToolTips {...args} trigger="click">
+      </Tooltip>
+      <Tooltip {...args} trigger="click">
         <SearchIcon sx={{ fontSize: 40 }} />
-      </ToolTips>
-      <ToolTips {...args} trigger="click">
+      </Tooltip>
+      <Tooltip {...args} trigger="click">
         <Button variant="contained">ToolTip Button</Button>
-      </ToolTips>
+      </Tooltip>
     </Storycontainer>
   </StoryWrapper>
 );
@@ -62,53 +62,53 @@ Secondary.args = {
   theme: "secondary",
 };
 
-export const Size: ComponentStory<typeof ToolTips> = (args: IToolTips) => {
+export const Size: ComponentStory<typeof Tooltip> = (args: ITooltip) => {
   return (
     <StoryWrapper>
-      <ToolTips {...args} size="sm">
+      <Tooltip {...args} size="sm">
         <Button variant="contained">SMALL</Button>
-      </ToolTips>
-      <ToolTips {...args} size="md">
+      </Tooltip>
+      <Tooltip {...args} size="md">
         <Button variant="contained">MEDIUM</Button>
-      </ToolTips>
-      <ToolTips {...args} size="lg">
+      </Tooltip>
+      <Tooltip {...args} size="lg">
         <Button variant="contained">LARGE</Button>
-      </ToolTips>
+      </Tooltip>
     </StoryWrapper>
   );
 };
 
-export const Position: ComponentStory<typeof ToolTips> = (args: IToolTips) => {
+export const Position: ComponentStory<typeof Tooltip> = (args: ITooltip) => {
   return (
     <StoryWrapper>
-      <ToolTips {...args} position="top">
+      <Tooltip {...args} position="top">
         <Button variant="contained">TOP</Button>
-      </ToolTips>
-      <ToolTips {...args} position="bottom">
+      </Tooltip>
+      <Tooltip {...args} position="bottom">
         <Button variant="contained">BOTTOM</Button>
-      </ToolTips>
-      <ToolTips {...args} position="left">
+      </Tooltip>
+      <Tooltip {...args} position="left">
         <Button variant="contained">LEFT</Button>
-      </ToolTips>
-      <ToolTips {...args} position="right">
+      </Tooltip>
+      <Tooltip {...args} position="right">
         <Button variant="contained">RIGHT</Button>
-      </ToolTips>
+      </Tooltip>
     </StoryWrapper>
   );
 };
 
-export const AbsolutePosition: ComponentStory<typeof ToolTips> = (
-  args: IToolTips
+export const AbsolutePosition: ComponentStory<typeof Tooltip> = (
+  args: ITooltip
 ) => {
   return (
     <>
       <RelativeWrapper>
-        <ToolTips {...args} position="bottom" trigger="click">
+        <Tooltip {...args} position="bottom" trigger="click">
           <AbsoluteWrapper>it should be on the right</AbsoluteWrapper>
-        </ToolTips>
-        {/* <ToolTips {...args} position="bottom">
+        </Tooltip>
+        <Tooltip {...args} position="bottom">
           <StyledIcon sx={{ fontSize: 40 }} />
-        </ToolTips> */}
+        </Tooltip>
       </RelativeWrapper>
     </>
   );
@@ -116,8 +116,8 @@ export const AbsolutePosition: ComponentStory<typeof ToolTips> = (
 
 const StyledIcon = styled(SearchIcon)`
   position: absolute;
-  top: 30;
-  left: 30;
+  top: 30px;
+  left: 30px;
 `;
 
 const StoryWrapper = styled.div`

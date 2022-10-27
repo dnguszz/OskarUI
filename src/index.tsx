@@ -1,1 +1,1 @@
-export { ToolTips } from "./components/ToolTips";
+export { Tooltip } from "./components/Tooltip";
