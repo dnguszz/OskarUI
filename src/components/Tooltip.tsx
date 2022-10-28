@@ -44,31 +44,39 @@ export function Tooltip({
   const targetRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
-    let clonedChild;
-    if (trigger === "click") {
-      clonedChild = React.cloneElement(children!, {
-        ref: targetRef,
-      });
-    } else {
-      clonedChild = React.cloneElement(children!, {
-        onMouseOver: () => setVisible(true),
-        onMouseLeave: () => setVisible(false),
-        ref: targetRef,
-      });
-    }
+    const clonedChild = React.cloneElement(children!, {
+      ref: targetRef,
+    });
     setChild(clonedChild);
-  }, []);
+  }, [children]);
 
   useEffect(() => {
-    if (trigger !== "click") return;
     const handleClickOutside = (e: MouseEvent) => {
+      e.stopPropagation();
       setVisible(targetRef.current.contains(e.target as Node));
     };
-    document.addEventListener("click", handleClickOutside);
+    const handleHover = (flag: boolean) => {
+      setVisible(flag);
+    };
+    if (trigger === "hover") {
+      targetRef.current?.addEventListener("mouseenter", () =>
+        handleHover(true)
+      );
+      targetRef.current?.addEventListener("mouseleave", () =>
+        handleHover(false)
+      );
+      //targetRef => child를 참조하는 요소가 없으므로 이벤트 제거 안함.(보충 팔요)
+    } else {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        console.log("remove event");
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [targetRef, trigger]);
+  }, [child]);
 
   return (
     <>
