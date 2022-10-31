@@ -38,17 +38,9 @@ export function Tooltip({
   theme = "primary",
   size = "md",
 }: ITooltip) {
-  const [child, setChild] = useState<React.ReactElement>();
   const [visible, setVisible] = useState<boolean>(false);
 
   const targetRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-
-  useEffect(() => {
-    const clonedChild = React.cloneElement(children!, {
-      ref: targetRef,
-    });
-    setChild(clonedChild);
-  }, [children]);
 
   useEffect(() => {
     if (trigger !== "click") return;
@@ -61,7 +53,7 @@ export function Tooltip({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [child]);
+  }, [trigger]);
 
   useEffect(() => {
     if (trigger !== "hover") return;
@@ -84,11 +76,13 @@ export function Tooltip({
         handleHover(e, false)
       );
     };
-  }, [child]);
+  }, [trigger]);
 
   return (
     <>
-      {child}
+      {React.cloneElement(children!, {
+        ref: targetRef,
+      })}
       {visible &&
         ReactDOM.createPortal(
           <MessageWrapper
@@ -205,7 +199,7 @@ const MessageWrapper = styled.div<PropsType>`
   z-index: 100;
   top: ${(props) => `${props.targetRect.top}px`};
   left: ${(props) => `${props.targetRect.left}px`};
-  ${(props) => getPosition(props.position, props.targetRect)}
-  ${(props) => getTheme(props.theme)}
-  ${(props) => getSize(props.size)}
+  ${(props) => getPosition(props.position, props.targetRect)};
+  ${(props) => getTheme(props.theme)};
+  ${(props) => getSize(props.size)};
 `;
