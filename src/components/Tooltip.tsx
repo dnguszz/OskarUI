@@ -13,9 +13,9 @@ export interface ITooltip {
 }
 
 interface PropsType {
-  position: string;
-  theme: string;
-  size: string;
+  position: Position;
+  theme: Theme;
+  size: Size;
   targetRect: DOMRect;
 }
 
@@ -51,30 +51,38 @@ export function Tooltip({
   }, [children]);
 
   useEffect(() => {
+    if (trigger !== "click") return;
     const handleClickOutside = (e: MouseEvent) => {
       e.stopPropagation();
       setVisible(targetRef.current.contains(e.target as Node));
     };
-    const handleHover = (flag: boolean) => {
-      setVisible(flag);
-    };
-    if (trigger === "hover") {
-      targetRef.current?.addEventListener("mouseenter", () =>
-        handleHover(true)
-      );
-      targetRef.current?.addEventListener("mouseleave", () =>
-        handleHover(false)
-      );
-      //targetRef => child를 참조하는 요소가 없으므로 이벤트 제거 안함.(보충 팔요)
-    } else {
-      document.addEventListener("click", handleClickOutside);
-      return () => {
-        console.log("remove event");
-        document.removeEventListener("click", handleClickOutside);
-      };
-    }
+
+    document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
+    };
+  }, [child]);
+
+  useEffect(() => {
+    if (trigger !== "hover") return;
+    const handleHover = (e: MouseEvent, flag: boolean) => {
+      e.stopPropagation();
+      setVisible(flag);
+    };
+
+    targetRef.current?.addEventListener("mouseover", (e) =>
+      handleHover(e, true)
+    );
+    targetRef.current?.addEventListener("mouseout", (e) =>
+      handleHover(e, false)
+    );
+    return () => {
+      targetRef.current?.removeEventListener("mouseover", (e) =>
+        handleHover(e, true)
+      );
+      targetRef.current?.removeEventListener("mouseout", (e) =>
+        handleHover(e, false)
+      );
     };
   }, [child]);
 
@@ -88,6 +96,7 @@ export function Tooltip({
             theme={theme}
             size={size}
             targetRect={targetRef.current.getBoundingClientRect()}
+            className="OuiTooltip"
           >
             {message}
           </MessageWrapper>,
@@ -99,34 +108,29 @@ export function Tooltip({
 
 export default Tooltip;
 
-const getPosition = (position: string, targetRect: DOMRect) => {
+const getPosition = (position: Position, targetRect: DOMRect) => {
   const padding = 12;
 
   switch (position) {
-    case "top":
-      return css`
-        top: ${targetRect.top}px;
-        left: ${targetRect.left}px;
-        transform: translate(
-          calc(${targetRect.width / 2}px - 50%),
-          calc(-100% - ${padding}px)
-        );
-      `;
-
     case "bottom":
+    default:
       return css`
-        top: ${targetRect.top}px;
-        left: ${targetRect.left}px;
         transform: translate(
           calc(${targetRect.width / 2}px - 50%),
           ${targetRect.height + padding}px
         );
       `;
 
+    case "top":
+      return css`
+        transform: translate(
+          calc(${targetRect.width / 2}px - 50%),
+          calc(-100% - ${padding}px)
+        );
+      `;
+
     case "left":
       return css`
-        top: ${targetRect.top}px;
-        left: ${targetRect.left}px;
         transform: translate(
           calc(-100% - ${padding}px),
           calc(${targetRect.height / 2}px - 50%)
@@ -135,22 +139,18 @@ const getPosition = (position: string, targetRect: DOMRect) => {
 
     case "right":
       return css`
-        top: ${targetRect.top}px;
-        left: ${targetRect.left}px;
         transform: translate(
           ${targetRect.width + padding}px,
           calc(${targetRect.height / 2}px - 50%)
         );
       `;
-
-    default:
-      return;
   }
 };
 
-const getTheme = (theme: string) => {
+const getTheme = (theme: Theme) => {
   switch (theme) {
     case "primary":
+    default:
       return css`
         background-color: #f2f2f2;
         color: #424242;
@@ -161,18 +161,17 @@ const getTheme = (theme: string) => {
         background-color: rgba(0, 0, 0, 0.6);
         color: #f2f2f2;
       `;
-    default:
-      return;
   }
 };
 
-const getSize = (size: string) => {
+const getSize = (size: Size) => {
   switch (size) {
     case "sm":
       return css`
         font-size: 12px;
       `;
     case "md":
+    default:
       return css`
         font-size: 16px;
       `;
@@ -180,8 +179,6 @@ const getSize = (size: string) => {
       return css`
         font-size: 22px;
       `;
-    default:
-      return;
   }
 };
 
@@ -206,6 +203,8 @@ const MessageWrapper = styled.div<PropsType>`
   cursor: default;
   animation: ${fadeIn} 0.15s linear;
   z-index: 100;
+  top: ${(props) => `${props.targetRect.top}px`};
+  left: ${(props) => `${props.targetRect.left}px`};
   ${(props) => getPosition(props.position, props.targetRect)}
   ${(props) => getTheme(props.theme)}
   ${(props) => getSize(props.size)}

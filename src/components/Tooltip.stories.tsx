@@ -33,9 +33,9 @@ const positionProps: PositionType[] = ["top", "bottom", "left", "right"];
 
 const Template: ComponentStory<typeof Tooltip> = (args: ITooltip) => (
   <StoryWrapper>
-    {triggerProps.map((trigger) => {
+    {triggerProps.map((trigger, index) => {
       return (
-        <Storycontainer>
+        <Storycontainer key={`template-${index}`}>
           <h1>{trigger}</h1>
           <Tooltip {...args} trigger={trigger}>
             <StyledDiv>div</StyledDiv>
@@ -68,9 +68,9 @@ Secondary.args = {
 export const Size: ComponentStory<typeof Tooltip> = (args: ITooltip) => {
   return (
     <StoryWrapper>
-      {sizeProps.map((size) => {
+      {sizeProps.map((size, index) => {
         return (
-          <Tooltip {...args} size={size.props}>
+          <Tooltip {...args} size={size.props} key={`size-${index}`}>
             <Button variant="contained">{size.text}</Button>
           </Tooltip>
         );
@@ -82,9 +82,9 @@ export const Size: ComponentStory<typeof Tooltip> = (args: ITooltip) => {
 export const Position: ComponentStory<typeof Tooltip> = (args: ITooltip) => {
   return (
     <StoryWrapper>
-      {positionProps.map((position) => {
+      {positionProps.map((position, index) => {
         return (
-          <Tooltip {...args} position={position}>
+          <Tooltip {...args} position={position} key={`position-${index}`}>
             <Button variant="contained">{position}</Button>
           </Tooltip>
         );
