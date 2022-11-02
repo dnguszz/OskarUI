@@ -38,51 +38,49 @@ export function Tooltip({
   theme = "primary",
   size = "md",
 }: ITooltip) {
+  const [child, setChild] = useState<React.ReactElement>();
   const [visible, setVisible] = useState<boolean>(false);
 
   const targetRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
-    if (trigger !== "click") return;
-    const handleClickOutside = (e: MouseEvent) => {
-      e.stopPropagation();
-      setVisible(targetRef.current.contains(e.target as Node));
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [trigger]);
-
-  useEffect(() => {
-    if (trigger !== "hover") return;
-    const handleHover = (e: MouseEvent, flag: boolean) => {
-      e.stopPropagation();
-      setVisible(flag);
-    };
-
-    targetRef.current?.addEventListener("mouseover", (e) =>
-      handleHover(e, true)
-    );
-    targetRef.current?.addEventListener("mouseout", (e) =>
-      handleHover(e, false)
-    );
-    return () => {
-      targetRef.current?.removeEventListener("mouseover", (e) =>
-        handleHover(e, true)
+    if (trigger === "click") {
+      setChild(
+        React.cloneElement(children!, {
+          ref: targetRef,
+        })
       );
-      targetRef.current?.removeEventListener("mouseout", (e) =>
-        handleHover(e, false)
+      const handleClickOutside = (e: MouseEvent) => {
+        e.stopPropagation();
+        setVisible(targetRef.current.contains(e.target as Node));
+      };
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    } else {
+      const onMouseOver = () => {
+        setVisible(true);
+        children.props.onMouseOver?.();
+      };
+      const onMouseLeave = () => {
+        setVisible(false);
+        children.props.onMouseLeave?.();
+      };
+
+      setChild(
+        React.cloneElement(children!, {
+          ref: targetRef,
+          onMouseOver: () => onMouseOver(),
+          onMouseLeave: () => onMouseLeave(),
+        })
       );
-    };
+    }
   }, [trigger]);
 
   return (
     <>
-      {React.cloneElement(children!, {
-        ref: targetRef,
-      })}
+      {child}
       {visible &&
         ReactDOM.createPortal(
           <MessageWrapper
@@ -197,8 +195,8 @@ const MessageWrapper = styled.div<PropsType>`
   cursor: default;
   animation: ${fadeIn} 0.15s linear;
   z-index: 100;
-  top: ${(props) => `${props.targetRect.top}px`};
-  left: ${(props) => `${props.targetRect.left}px`};
+  top: ${(props) => `${props.targetRect.top + window.scrollY}px`};
+  left: ${(props) => `${props.targetRect.left + window.scrollX}px`};
   ${(props) => getPosition(props.position, props.targetRect)};
   ${(props) => getTheme(props.theme)};
   ${(props) => getSize(props.size)};

@@ -3,7 +3,7 @@
 ### install
 
 ```
-npm install wooh-ui
+npm install oskar-ui
 ```
 
 <br>
@@ -31,7 +31,7 @@ npm install wooh-ui
 ### Get Started
 
 ```
-import { Tooltip } from "wooh-ui";
+import { Tooltip } from "oskar-ui";
 ```
 
 <br>
